@@ -8,23 +8,30 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import pavlov.p.anton.motivation.R;
+import pavlov.p.anton.motivation.object.Citation;
 
 
 public class PlaceholderFragment extends Fragment {
-    private String text;
+    //private String textMain;
+//    private String textSource;
+    private Citation citation;
 
-    public PlaceholderFragment() {
+    public PlaceholderFragment(Citation citation) {
+        this.citation = citation;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        TextView textView = (TextView) rootView.findViewById(R.id.main_text);
-        textView.setText(text);
+        TextView textMainView = (TextView) rootView.findViewById(R.id.main_text);
+        TextView textSourceView = (TextView) rootView.findViewById(R.id.source_text);
+        textMainView.setText(citation.getTextMain());
+        textSourceView.setText(citation.getSourceMain());
         return rootView;
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
+//    public void setText(Citation text) {
+//        this.textMain = text.getTextMain();
+//        this.textSource = text.getSourceMain();
+//    }
 }

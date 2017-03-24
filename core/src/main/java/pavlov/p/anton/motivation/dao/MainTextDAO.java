@@ -13,11 +13,14 @@ public class MainTextDAO {
 
     public List<MainText> getAll() {
         List<MainText> mainTexts = new ArrayList<>();
-        try (PreparedStatement preparedStatement = SQLiteConnection.getConnection().prepareStatement(
-                "SELECT * FROM mainText")) {
+        try (PreparedStatement preparedStatement = SQLiteConnection.getConnection()
+                .prepareStatement("SELECT * FROM mainText")) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                mainTexts.add(fillMainText(resultSet));
+                mainTexts.add(new MainText(
+                        resultSet.getInt("id"),
+                        resultSet.getString("main_text"),
+                        resultSet.getInt("source_text_id")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -32,4 +35,9 @@ public class MainTextDAO {
                 resultSet.getInt("source_text_id")
         );
     }
+
+//    public static void main(String[] args) {
+//        List<MainText> all = new MainTextDAO().getAll();
+//        System.out.println(all.size());
+//    }
 }

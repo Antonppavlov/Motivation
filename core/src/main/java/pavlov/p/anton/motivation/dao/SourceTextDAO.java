@@ -14,8 +14,8 @@ public class SourceTextDAO {
 
     public List<SourceText> getAll() {
         List<SourceText> sourceTexts = new ArrayList<>();
-        try (PreparedStatement preparedStatement = SQLiteConnection.getConnection().prepareStatement(
-                "SELECT * FROM sourceText")) {
+        try (PreparedStatement preparedStatement = SQLiteConnection.getConnection()
+                .prepareStatement("SELECT * FROM sourceText")) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 sourceTexts.add(fillSourceText(resultSet));
