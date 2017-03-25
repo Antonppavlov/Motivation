@@ -20,13 +20,11 @@ public class Initializer {
         SQLiteConnection.init(driverClass, url);
 
 
+        CreateCitation createCitation = new CreateCitation(
+                new MainTextDAO(),
+                new SourceTextDAO());
 
-        List<MainText> mainTextList = new MainTextDAO().getAll();
-        List<SourceText> sourceTextList = new SourceTextDAO().getAll();
-
-        CreateCitation createCitation = new CreateCitation(mainTextList, sourceTextList);
-
-        citationList = createCitation.getCitationList();
+        citationList = createCitation.getShuffleCitationList();
 
 
     }
