@@ -1,27 +1,37 @@
 package pavlov.p.anton.motivation.object;
 
 public class Citation {
-    private String textMain;
-    private String sourceMain;
+    private String QuoteName;
+    private String SourceName;
+    private String CategoryName;
 
-    public Citation(String textMain, String sourceMain) {
-        this.textMain = textMain;
-        this.sourceMain = sourceMain;
+    public Citation(String quoteName, String sourceName, String categoryName) {
+        QuoteName = quoteName;
+        SourceName = sourceName;
+        CategoryName = categoryName;
     }
 
-    public String getTextMain() {
-        return textMain;
+    public String getQuoteName() {
+        return QuoteName;
     }
 
-    public void setTextMain(String textMain) {
-        this.textMain = textMain;
+    public void setQuoteName(String quoteName) {
+        QuoteName = quoteName;
     }
 
-    public String getSourceMain() {
-        return sourceMain;
+    public String getSourceName() {
+        return SourceName;
     }
 
-    public void setSourceMain(String sourceMain) {
-        this.sourceMain = sourceMain;
+    public void setSourceName(String sourceName) {
+        SourceName = sourceName;
+    }
+
+    public String getCategoryName() {
+        return CategoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        CategoryName = categoryName;
     }
 }

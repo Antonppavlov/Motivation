@@ -6,36 +6,40 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import pavlov.p.anton.motivation.dao.MainTextDAO;
-import pavlov.p.anton.motivation.dao.SourceTextDAO;
+import pavlov.p.anton.motivation.dao.CategoryDAO;
+import pavlov.p.anton.motivation.dao.QuoteDAO;
+import pavlov.p.anton.motivation.dao.SourceDAO;
 import pavlov.p.anton.motivation.object.Citation;
-import pavlov.p.anton.motivation.object.MainText;
-import pavlov.p.anton.motivation.object.SourceText;
+import pavlov.p.anton.motivation.object.Quote;
 
 public class CreateCitation {
 
-    private final MainTextDAO mainTextDAO;
-    private final SourceTextDAO sourceTextDAO;
+    private final QuoteDAO quoteDAO;
+    private final SourceDAO sourceDAO;
+    private final CategoryDAO categoryDAO;
     private List<Citation> citationList;
 
 
-    public CreateCitation(MainTextDAO mainTextDAO, SourceTextDAO sourceTextDAO) {
-        this.mainTextDAO = mainTextDAO;
-        this.sourceTextDAO = sourceTextDAO;
-        createAllCitation();
+    public CreateCitation(QuoteDAO quoteDAO, SourceDAO sourceDAO, CategoryDAO categoryDAO) {
+        this.quoteDAO = quoteDAO;
+        this.sourceDAO = sourceDAO;
+        this.categoryDAO = categoryDAO;
     }
-
 
     private void createAllCitation() {
         citationList = new ArrayList<>();
-        List<MainText> mainTextList = mainTextDAO.getAll();
-        Map<Integer, String> identityMapTextDAO = sourceTextDAO.getIdentityMap();
+        List<Quote> quoteList = quoteDAO.getAll();
+        Map<Integer, String> sourceDAOIdentityMap = sourceDAO.getIdentityMap();
+        Map<Integer, String> categoryDAOIdentityMap = categoryDAO.getIdentityMap();
 
-        for (MainText mainText : mainTextList) {
-            String textMain = mainText.getTextMain();
-            String textSource = identityMapTextDAO.get(mainText.getIdSource());
-            citationList.add(new Citation(textMain, textSource));
+        for (Quote quote : quoteList) {
+            String textMain = quote.getTextMain();
+            String textSource = sourceDAOIdentityMap.get(quote.getSourceId());
+            String textCategory = categoryDAOIdentityMap.get(quote.getCategoryId());
+
+            citationList.add(new Citation(textMain, textSource,textCategory));
         }
+
         Collections.shuffle(citationList);
     }
 

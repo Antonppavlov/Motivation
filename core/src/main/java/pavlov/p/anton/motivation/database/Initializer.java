@@ -4,11 +4,10 @@ package pavlov.p.anton.motivation.database;
 import java.util.List;
 
 import pavlov.p.anton.motivation.create.CreateCitation;
-import pavlov.p.anton.motivation.dao.MainTextDAO;
-import pavlov.p.anton.motivation.dao.SourceTextDAO;
+import pavlov.p.anton.motivation.dao.CategoryDAO;
+import pavlov.p.anton.motivation.dao.QuoteDAO;
+import pavlov.p.anton.motivation.dao.SourceDAO;
 import pavlov.p.anton.motivation.object.Citation;
-import pavlov.p.anton.motivation.object.MainText;
-import pavlov.p.anton.motivation.object.SourceText;
 
 public class Initializer {
 
@@ -21,8 +20,9 @@ public class Initializer {
 
 
         CreateCitation createCitation = new CreateCitation(
-                new MainTextDAO(),
-                new SourceTextDAO());
+                new QuoteDAO(),
+                new SourceDAO(),
+                new CategoryDAO());
 
         citationList = createCitation.getShuffleCitationList();
 

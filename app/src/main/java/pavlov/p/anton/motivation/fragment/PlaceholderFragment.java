@@ -12,8 +12,7 @@ import pavlov.p.anton.motivation.object.Citation;
 
 
 public class PlaceholderFragment extends Fragment {
-    //private String textMain;
-//    private String textSource;
+
     private Citation citation;
 
     public PlaceholderFragment(Citation citation) {
@@ -23,15 +22,15 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        TextView textMainView = (TextView) rootView.findViewById(R.id.main_text);
+
+        TextView textQuoteView = (TextView) rootView.findViewById(R.id.quote_text);
         TextView textSourceView = (TextView) rootView.findViewById(R.id.source_text);
-        textMainView.setText(citation.getTextMain());
-        textSourceView.setText(citation.getSourceMain());
+        TextView textCategoryView = (TextView) rootView.findViewById(R.id.category_text);
+        textQuoteView.setText(citation.getQuoteName());
+        textSourceView.setText(citation.getSourceName());
+        textCategoryView.setText(citation.getCategoryName());
+
         return rootView;
     }
 
-//    public void setText(Citation text) {
-//        this.textMain = text.getTextMain();
-//        this.textSource = text.getSourceMain();
-//    }
 }

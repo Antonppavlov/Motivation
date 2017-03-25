@@ -10,11 +10,19 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/main_text"
+        android:id="@+id/category_text"
         android:layout_width="match_parent"
-        android:layout_height="460dp"
+        android:layout_height="wrap_content"
+        android:gravity="center|left"
+        android:layout_gravity="end"
+        android:text="category_text" />
+
+    <TextView
+        android:id="@+id/quote_text"
+        android:layout_width="match_parent"
+        android:layout_height="440dp"
         android:gravity="center"
-        android:text="main_text"
+        android:text="quote_text"
         android:textSize="18sp"
         android:textStyle="normal|italic"
         android:textColor="@color/colorTextMain"/>
@@ -25,6 +33,6 @@
         android:layout_height="match_parent"
         android:gravity="center|right"
         android:layout_gravity="end"
-        android:text="Двенадцать стульев" />
+        android:text="source_text" />
 
 </LinearLayout>
