@@ -24,12 +24,12 @@ public class SQLiteConnection {
 
     private static void createConnection() {
         try {
-            if (driverClassName == null) {
-                driverClassName = "org.sqldroid.SQLDroidDriver";
-            }
-            if (urlConnection == null) {
-                urlConnection = "jdbc:sqldroid:/Users/antonpavlov/AndroidStudioProjects/Motivation/app/src/main/assets/citation.db";
-            }
+//            if (driverClassName == null) {
+//                driverClassName = "org.sqldroid.SQLDroidDriver";
+//            }
+//            if (urlConnection == null) {
+//                urlConnection = "jdbc:sqldroid:/Users/antonpavlov/AndroidStudioProjects/Motivation/app/src/main/assets/citation.db";
+//            }
 
             Class.forName(driverClassName).newInstance();
 

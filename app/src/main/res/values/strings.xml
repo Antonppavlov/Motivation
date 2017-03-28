@@ -1,6 +1,13 @@
 <resources>
-    <string name="app_name">Motivation</string>
-    <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="app_name">Цитаты</string>
+    <string name="action_settings">Настройки</string>
     <string name="loading">Загрузка...</string>
+    <string name="search_title">Поиск</string>
+    <string name="faforites">Избранные</string>
+    <string name="people">Люди</string>
+    <string name="foreign_films">Иностранные</string>
+    <string name="our_films">Наше кино</string>
+    <string name="random">Случайные</string>
+    <string name="open">Открыть</string>
+    <string name="close">Закрыть</string>
 </resources>

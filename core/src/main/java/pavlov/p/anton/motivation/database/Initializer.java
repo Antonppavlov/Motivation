@@ -3,33 +3,18 @@ package pavlov.p.anton.motivation.database;
 
 import java.util.List;
 
-import pavlov.p.anton.motivation.create.CreateCitation;
-import pavlov.p.anton.motivation.dao.CategoryDAO;
-import pavlov.p.anton.motivation.dao.QuoteDAO;
-import pavlov.p.anton.motivation.dao.SourceDAO;
-import pavlov.p.anton.motivation.object.Citation;
+import pavlov.p.anton.motivation.create.CreatePosts;
 
 public class Initializer {
 
-
-    private static List<Citation> citationList;
+    private static CreatePosts createPosts;
 
     public static void load(String driverClass, String url) {
-
         SQLiteConnection.init(driverClass, url);
-
-
-        CreateCitation createCitation = new CreateCitation(
-                new QuoteDAO(),
-                new SourceDAO(),
-                new CategoryDAO());
-
-        citationList = createCitation.getShuffleCitationList();
-
-
+        createPosts = new CreatePosts();
     }
 
-    public static List<Citation> getCitationList() {
-        return citationList;
+    public static CreatePosts getCreatePosts() {
+        return createPosts;
     }
 }
