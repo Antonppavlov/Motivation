@@ -3,6 +3,7 @@ package pavlov.p.anton.motivation.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class PlaceholderFragment extends Fragment {
 
 
         textQuoteView.setText(citation.getQuote());
+//        textQuoteView.setMovementMethod(new ScrollingMovementMethod());
         textSourceView.setText(citation.getAuthor());
 //        textCategoryView.setText(firstUpperCase(citation.getCategoryName()));
 
