@@ -17,6 +17,8 @@
         android:layout_height="510dp"
         android:gravity="center"
         android:text="quote_text"
+        android:onClick="clickText"
+
         android:textColor="@color/colorTextMain"
         android:textSize="19sp"
         android:textStyle="normal|italic" />
@@ -28,6 +30,7 @@
         android:layout_gravity="end"
         android:gravity="end|right"
         android:text="source_text"
+        android:onClick="clickText"
         android:textColor="@color/colorTextSource"/>
 
 </LinearLayout>

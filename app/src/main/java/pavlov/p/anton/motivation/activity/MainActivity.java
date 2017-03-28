@@ -82,10 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.search: {
                         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-//                        SearchManager searchManager = (SearchManager)
-//                                getSystemService(Context.SEARCH_SERVICE);
-//                        searchView.setSearchableInfo(searchManager. getSearchableInfo(getComponentName()));
-//                        searchView.setSubmitButtonEnabled(true);
 
                         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                             @Override
@@ -98,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                                 toast.show();
                                 searchView.setIconified(false);
                                 searchView.onActionViewCollapsed();
-//                                searchView
+
                                 toolbar.collapseActionView();
                                 searchView.onFinishTemporaryDetach();
                                 return false;
@@ -106,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public boolean onQueryTextChange(String newText) {
-                               // Toast.makeText(getApplicationContext(), newText, Toast.LENGTH_SHORT).show();
                                 return false;
                             }
                         });
@@ -161,4 +156,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void clickText(View view) {
+        toolbar.collapseActionView();
+    }
 }
