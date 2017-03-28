@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -80,11 +81,11 @@ public class MainActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.search: {
-                        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-                        SearchManager searchManager = (SearchManager)
-                                getSystemService(Context.SEARCH_SERVICE);
-                        searchView.setSearchableInfo(searchManager. getSearchableInfo(getComponentName()));
-                        searchView.setSubmitButtonEnabled(true);
+                        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+//                        SearchManager searchManager = (SearchManager)
+//                                getSystemService(Context.SEARCH_SERVICE);
+//                        searchView.setSearchableInfo(searchManager. getSearchableInfo(getComponentName()));
+//                        searchView.setSubmitButtonEnabled(true);
 
                         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                             @Override
@@ -92,18 +93,25 @@ public class MainActivity extends AppCompatActivity {
                                 FilterDAO filterDAO = Initializer.getCreatePosts().getFilterDAO();
                                 List<Post> filterPostsByText = filterDAO.getFilterPostsByText(query);
                                 createViewPager(filterPostsByText);
-                                Toast.makeText(getApplicationContext(), query, Toast.LENGTH_LONG).show();
-                                return true;
+                                Toast toast = Toast.makeText(getApplicationContext(),"Результат поиска: "+ filterPostsByText.size(),Toast.LENGTH_SHORT );
+                                toast.setGravity(Gravity.TOP, 0, 150);
+                                toast.show();
+                                searchView.setIconified(false);
+                                searchView.onActionViewCollapsed();
+//                                searchView
+                                toolbar.collapseActionView();
+                                searchView.onFinishTemporaryDetach();
+                                return false;
                             }
 
                             @Override
                             public boolean onQueryTextChange(String newText) {
                                // Toast.makeText(getApplicationContext(), newText, Toast.LENGTH_SHORT).show();
-                                return true;
+                                return false;
                             }
                         });
 
-                        return true;
+                        return false;
                     }
                 }
                 return false;
