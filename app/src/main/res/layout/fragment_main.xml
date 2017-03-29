@@ -10,17 +10,32 @@
     tools:context="pavlov.p.anton.motivation.fragment.PlaceholderFragment">
 
 
-    <TextView
-        android:id="@+id/quote_text"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="490dp"
-        android:gravity="center"
-        android:onClick="clickText"
-        android:text="quote_text"
+        android:layout_height="495dp"
+        android:orientation="vertical">
 
-        android:textColor="@color/colorTextMain"
-        android:textSize="19sp"
-        android:textStyle="normal|italic" />
+        <TextView
+            android:id="@+id/quote_text"
+            android:layout_width="match_parent"
+            android:layout_height="472dp"
+            android:gravity="center"
+            android:onClick="clickText"
+            android:text="quote_text"
+            android:textColor="@color/colorTextMain"
+            android:textSize="19sp"
+            android:textStyle="normal|italic" />
+
+        <CheckBox
+            android:id="@+id/chbFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/favorite"
+            android:layout_gravity="right"
+            android:onClick="clickFavorite" />
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/source_text"

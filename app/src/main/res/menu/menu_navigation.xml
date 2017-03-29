@@ -3,30 +3,38 @@
 
     <item
         android:id="@+id/item_nav_menu_random"
-        android:icon="@mipmap/ic_message_text"
+        android:icon="@mipmap/ic_dice_multiple"
         android:orderInCategory="1"
         android:title="@string/random" />
+
     <item
         android:id="@+id/item_nav_menu_our_films"
-        android:icon="@mipmap/ic_star"
+        android:icon="@mipmap/ic_font_awesome"
         android:orderInCategory="2"
         android:title="@string/our_films" />
+
     <item
         android:id="@+id/item_nav_menu_foreign_films"
-        android:icon="@mipmap/ic_archive"
+        android:icon="@mipmap/ic_airballoon"
         android:orderInCategory="3"
         android:title="@string/foreign_films" />
+
+    <item
+        android:id="@+id/item_nav_menu_cartoons"
+        android:icon="@mipmap/ic_duck"
+        android:orderInCategory="2"
+        android:title="@string/cartoons" />
+
     <item
         android:id="@+id/item_nav_menu_people"
-        android:icon="@mipmap/ic_settings"
+        android:icon="@mipmap/ic_account_card_details"
         android:orderInCategory="4"
         android:title="@string/people" />
 
-
-    <!--<item-->
-        <!--android:id="@+id/item_nav_menu_favorites"-->
-        <!--android:icon="@mipmap/ic_account_card_details"-->
-        <!--android:orderInCategory="5"-->
-        <!--android:title="@string/faforites" />-->
+    <item
+        android:id="@+id/item_nav_menu_favorites"
+        android:icon="@mipmap/ic_star"
+        android:orderInCategory="5"
+        android:title="@string/faforites" />
 
 </menu>

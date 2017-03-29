@@ -1,8 +1,6 @@
 package pavlov.p.anton.motivation.database;
 
 
-import java.util.List;
-
 import pavlov.p.anton.motivation.create.CreatePosts;
 
 public class Initializer {

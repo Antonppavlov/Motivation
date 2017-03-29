@@ -1,9 +1,5 @@
 package pavlov.p.anton.motivation.activity;
 
-import android.app.SearchManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,10 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                                 FilterDAO filterDAO = Initializer.getCreatePosts().getFilterDAO();
                                 List<Post> filterPostsByText = filterDAO.getFilterPostsByText(query);
                                 createViewPager(filterPostsByText);
-                                Toast toast = Toast.makeText(getApplicationContext(),"Результат поиска: "+ filterPostsByText.size(),Toast.LENGTH_SHORT );
+                                Toast toast = Toast.makeText(getApplicationContext(), "Результат поиска: " + filterPostsByText.size(), Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.TOP, 0, 150);
                                 toast.show();
                                 searchView.setIconified(false);
@@ -129,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 drawerLayout.closeDrawers();
-
+                toolbar.collapseActionView();
                 FilterDAO filterDAO = Initializer.getCreatePosts().getFilterDAO();
                 switch (item.getItemId()) {
 
@@ -149,6 +145,14 @@ public class MainActivity extends AppCompatActivity {
                         createViewPager(filterDAO.getTypeList(Type.PEOPLE));
                         break;
                     }
+                    case R.id.item_nav_menu_cartoons: {
+                        createViewPager(filterDAO.getTypeList(Type.CARTOONS));
+                        break;
+                    }
+                    case R.id.item_nav_menu_favorites: {
+                        createViewPager(filterDAO.getFavoriteAllPost());
+                        break;
+                    }
                 }
                 return true;
             }
@@ -158,5 +162,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void clickText(View view) {
         toolbar.collapseActionView();
+    }
+
+    public void clickFavorite(View view) {
+        FilterDAO filterDAO = Initializer.getCreatePosts().getFilterDAO();
+        CheckBox checkBox = (CheckBox) view;
+        boolean checked = checkBox.isChecked();
+
+
+        TextView textView = (TextView) findViewById(R.id.quote_text);
+        filterDAO.updateQuoteStatusFavorite(checked, textView.getText().toString());
+        String text;
+        if (checked) {
+            text = "В избранное!";
+        } else {
+            text = "Удалено из избранного!";
+        }
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

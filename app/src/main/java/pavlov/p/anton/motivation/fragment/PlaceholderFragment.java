@@ -2,11 +2,10 @@ package pavlov.p.anton.motivation.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import pavlov.p.anton.motivation.R;
@@ -32,19 +31,16 @@ public class PlaceholderFragment extends Fragment {
 
         TextView textQuoteView = (TextView) rootView.findViewById(R.id.quote_text);
         TextView textSourceView = (TextView) rootView.findViewById(R.id.source_text);
-//        TextView textCategoryView = (TextView) rootView.findViewById(R.id.category_text);
 
+
+        CheckBox checkBox = (CheckBox) rootView.findViewById(R.id.chbFavorite);
+        checkBox.setChecked(citation.getFavorite());
 
         textQuoteView.setText(citation.getQuote());
-//        textQuoteView.setMovementMethod(new ScrollingMovementMethod());
         textSourceView.setText(citation.getAuthor());
-//        textCategoryView.setText(firstUpperCase(citation.getCategoryName()));
 
         return rootView;
     }
 
-//    public String firstUpperCase(String word) {
-//        if (word == null || word.isEmpty()) return "";//или return word;
-//        return word.substring(0, 1).toUpperCase() + word.substring(1);
-//    }
+
 }

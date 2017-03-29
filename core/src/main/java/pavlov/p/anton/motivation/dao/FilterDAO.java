@@ -21,11 +21,12 @@ public class FilterDAO {
     private List<Post> postList;
     private Map<Type, List<Post>> postMap = new EnumMap<Type, List<Post>>(Type.class);
 
+
     public FilterDAO() {
         createPosts();
     }
 
-    private void createPosts() {
+    public void createPosts() {
         this.postList = getAllPost();
         getShufflePostList();
         distributionPost(postList);
@@ -66,22 +67,23 @@ public class FilterDAO {
     }
 
 
+    private static String sql = "SELECT\n" +
+            "\"quote\".id as id,\n" +
+            "\"quote\".name as quote,\n" +
+            "source.name as author,\n" +
+            "category.name as category,\n" +
+            "\"quote\".favorite as favorite\n" +
+            "\n" +
+            "from \"quote\"\n" +
+            "\n" +
+            "INNER JOIN source on quote.source_id=source.id\n" +
+            "INNER JOIN category on quote.category_id=category.id ";
+
     public List<Post> getFilterPostsByText(String searchText) {
         List<Post> postList = new ArrayList<>();
         try (PreparedStatement preparedStatement = SQLiteConnection.getConnection()
-                .prepareStatement("SELECT\n" +
-                        "\"quote\".id as id\n" +
-                        ",\"quote\".name as quote\n" +
-                        ",source.name as author\n" +
-                        ",category.name as category\n" +
-                        "\n" +
-                        "from \"quote\"\n" +
-                        "\n" +
-                        "INNER JOIN source on \"quote\".source_id=source.id\n" +
-                        "INNER JOIN category on \"quote\".category_id=category.id\n" +
-                        "\n" +
-                        "where\n" +
-                        "\"quote\".name like +'%" + searchText + "%'" +
+                .prepareStatement(sql +
+                        "where \"quote\".name like +'%" + searchText + "%'" +
                         "or source.name like +'%" + searchText + "%'" +
                         "or category.name like  +'%" + searchText + "%'"
                 )) {
@@ -98,17 +100,7 @@ public class FilterDAO {
     public List<Post> getAllPost() {
         List<Post> postList = new ArrayList<>();
         try (PreparedStatement preparedStatement = SQLiteConnection.getConnection()
-                .prepareStatement("SELECT\n" +
-                        "\"quote\".id as id\n" +
-                        ",\"quote\".name as quote\n" +
-                        ",source.name as author\n" +
-                        ",category.name as category\n" +
-                        "\n" +
-                        "from \"quote\"\n" +
-                        "\n" +
-                        "INNER JOIN source on \"quote\".source_id=source.id\n" +
-                        "INNER JOIN category on \"quote\".category_id=category.id\n"
-                )) {
+                .prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 postList.add(createObject(resultSet));
@@ -121,11 +113,15 @@ public class FilterDAO {
 
 
     private Post createObject(ResultSet resultSet) throws SQLException {
+        boolean favorite = resultSet.getBoolean("favorite");
+
+//        String favorite1 = resultSet.getString("favorite");
         return new Post(
                 resultSet.getInt("id"),
                 resultSet.getString("quote"),
                 resultSet.getString("author"),
-                resultSet.getString("category"))
+                resultSet.getString("category"),
+                favorite)
                 ;
     }
 
@@ -139,8 +135,38 @@ public class FilterDAO {
     }
 
     public List<Post> getTypeList(Type type) {
-        createPosts();
-        return postMap.get(type);
+        List<Post> posts = postMap.get(type);
+        Collections.shuffle(posts);
+        return posts;
+    }
+
+    public void updateQuoteStatusFavorite(boolean checked, String text) {
+        int bool = 0;
+        if (checked) {
+            bool = 1;
+        }
+        try (PreparedStatement preparedStatement = SQLiteConnection.getConnection()
+                .prepareStatement("UPDATE quote SET favorite =" + bool + " where name = '" + text + "'"
+                )) {
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Post> getFavoriteAllPost() {
+        List<Post> postList = new ArrayList<>();
+        try (PreparedStatement preparedStatement = SQLiteConnection.getConnection()
+                .prepareStatement(sql + " where favorite = 1 ")) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                postList.add(createObject(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return postList;
     }
 
 }
