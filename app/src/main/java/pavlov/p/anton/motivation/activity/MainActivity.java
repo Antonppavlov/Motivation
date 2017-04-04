@@ -196,11 +196,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             text = "Удалено из избранного!";
         }
+
         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
 
 
         TextView idText = (TextView) findViewById(R.id.id_text);
-        Integer id = Integer.valueOf(idText.getText().toString());
-        filterDAO.updateQuoteStatusFavorite(checked, id);
+
     }
 }

@@ -128,20 +128,24 @@ public class FilterDAO {
 
 
     public void updateQuoteStatusFavorite(boolean checked, int idText) throws SQLException {
-        String status = "false";
-        if (checked) {
-            status = "true";
-        }
+
 
         PreparedStatement preparedStatement = SQLiteConnection.getConnection()
                 .prepareStatement("UPDATE quote " +
-                        "SET favorite = '" + status + "'" +
+                        "SET favorite = '" + checked + "'" +
                         " where id = " + idText + " ;");
-        int i = preparedStatement.executeUpdate();
+        preparedStatement.executeUpdate();
 
-        if (i == 0) {
-            updateQuoteStatusFavorite(checked, idText);
-        }
+//        if (checked) {
+//            if(!getFavoriteAllPost().contains(identityMap.get(idText))){
+//                updateQuoteStatusFavorite(checked, idText);
+//            }
+//        }
+//        else {
+//            if(getFavoriteAllPost().contains(identityMap.get(idText))){
+//                updateQuoteStatusFavorite(checked, idText);
+//            }
+//        }
 
     }
 

@@ -55,4 +55,30 @@ public class Post {
     public void setFavorite(String favorite) {
         this.favorite = favorite;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Post post = (Post) o;
+
+        if (id != post.id) return false;
+        if (quote != null ? !quote.equals(post.quote) : post.quote != null) return false;
+        if (author != null ? !author.equals(post.author) : post.author != null) return false;
+        if (category != null ? !category.equals(post.category) : post.category != null)
+            return false;
+        return favorite != null ? favorite.equals(post.favorite) : post.favorite == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (quote != null ? quote.hashCode() : 0);
+        result = 31 * result + (author != null ? author.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        result = 31 * result + (favorite != null ? favorite.hashCode() : 0);
+        return result;
+    }
 }
