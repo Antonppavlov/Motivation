@@ -6,9 +6,9 @@ public class Post {
     private String quote;
     private String author;
     private String category;
-    private Boolean favorite;
+    private String favorite;
 
-    public Post(int id, String quote, String author, String category, Boolean favorite) {
+    public Post(int id, String quote, String author, String category, String favorite) {
         this.id = id;
         this.quote = quote;
         this.author = author;
@@ -20,19 +20,39 @@ public class Post {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getQuote() {
         return quote;
+    }
+
+    public void setQuote(String quote) {
+        this.quote = quote;
     }
 
     public String getAuthor() {
         return author;
     }
 
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     public String getCategory() {
         return category;
     }
 
-    public Boolean getFavorite() {
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getFavorite() {
         return favorite;
+    }
+
+    public void setFavorite(String favorite) {
+        this.favorite = favorite;
     }
 }

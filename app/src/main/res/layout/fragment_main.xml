@@ -37,6 +37,15 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/id_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:gravity="end|left"
+        android:onClick="clickText"
+        android:text="source_text"
+        android:textColor="@color/colorTextSource" />
 
     <TextView
         android:id="@+id/source_text"

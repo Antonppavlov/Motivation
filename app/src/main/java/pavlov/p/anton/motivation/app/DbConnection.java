@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.SQLException;
 
 import pavlov.p.anton.motivation.database.Initializer;
 
@@ -24,7 +25,7 @@ public class DbConnection {
     private DbConnection() {
     }
 
-    public static void initConnection(Context context) {
+    public static void initConnection(Context context) throws SQLException {
         checkDbExist(context);
         Initializer.load(DRIVER_CLASS,"jdbc:sqldroid:"+dbPath);
     }

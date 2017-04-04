@@ -16,7 +16,7 @@ public class PlaceholderFragment extends Fragment {
 
     private Post citation;
 
-    public PlaceholderFragment() {
+    private PlaceholderFragment() {
     }
 
     public static PlaceholderFragment newInstance(Post citation) {
@@ -31,13 +31,18 @@ public class PlaceholderFragment extends Fragment {
 
         TextView textQuoteView = (TextView) rootView.findViewById(R.id.quote_text);
         TextView textSourceView = (TextView) rootView.findViewById(R.id.source_text);
-
-
+        TextView textIdText = (TextView) rootView.findViewById(R.id.id_text);
         CheckBox checkBox = (CheckBox) rootView.findViewById(R.id.chbFavorite);
-        checkBox.setChecked(citation.getFavorite());
+
+        boolean statusCheckBox = false;
+        if (citation.getFavorite().equals("true")) {
+            statusCheckBox = true;
+        }
 
         textQuoteView.setText(citation.getQuote());
         textSourceView.setText(citation.getAuthor());
+        textIdText.setText(String.valueOf(citation.getId()));
+        checkBox.setChecked(statusCheckBox);
 
         return rootView;
     }

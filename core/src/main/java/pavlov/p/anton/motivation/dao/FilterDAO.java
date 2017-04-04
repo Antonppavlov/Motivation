@@ -7,30 +7,46 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import pavlov.p.anton.motivation.database.SQLiteConnection;
 import pavlov.p.anton.motivation.object.Post;
 
-import static pavlov.p.anton.motivation.dao.Type.CARTOONS;
-import static pavlov.p.anton.motivation.dao.Type.OUR_FILMS;
-
 public class FilterDAO {
 
     private List<Post> postList;
-    private Map<Type, List<Post>> postMap = new EnumMap<Type, List<Post>>(Type.class);
+    private Map<Integer, Post> identityMap = new HashMap<>();
+    private Map<Type, List<Post>> postMap = new EnumMap<>(Type.class);
 
 
-    public FilterDAO() {
+    private static String sql = "SELECT\n" +
+            "\"quote\".id as id,\n" +
+            "\"quote\".name as quote,\n" +
+            "source.name as author,\n" +
+            "category.name as category,\n" +
+            "\"quote\".favorite as favorite\n" +
+            "\n" +
+            "from \"quote\"\n" +
+            "\n" +
+            "INNER JOIN source on quote.source_id=source.id\n" +
+            "INNER JOIN category on quote.category_id=category.id ";
+
+
+    public FilterDAO() throws SQLException {
         createPosts();
     }
 
-    public void createPosts() {
+
+    public void createPosts() throws SQLException {
         this.postList = getAllPost();
-        getShufflePostList();
         distributionPost(postList);
+        for (Post post : this.postList) {
+            identityMap.put(post.getId(), post);
+        }
     }
+
 
     private void distributionPost(List<Post> postList) {
         List<Post> cartoons = new ArrayList<>();
@@ -60,113 +76,118 @@ public class FilterDAO {
 
 
         }
-        postMap.put(CARTOONS, cartoons);
-        postMap.put(OUR_FILMS, ourFilms);
+        postMap.put(Type.CARTOONS, cartoons);
+        postMap.put(Type.OUR_FILMS, ourFilms);
         postMap.put(Type.FOREIGN_FILMS, foreignFilms);
         postMap.put(Type.PEOPLE, peopleList);
     }
 
 
-    private static String sql = "SELECT\n" +
-            "\"quote\".id as id,\n" +
-            "\"quote\".name as quote,\n" +
-            "source.name as author,\n" +
-            "category.name as category,\n" +
-            "\"quote\".favorite as favorite\n" +
-            "\n" +
-            "from \"quote\"\n" +
-            "\n" +
-            "INNER JOIN source on quote.source_id=source.id\n" +
-            "INNER JOIN category on quote.category_id=category.id ";
-
-    public List<Post> getFilterPostsByText(String searchText) {
+    private List<Post> getAllPost() throws SQLException {
         List<Post> postList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = SQLiteConnection.getConnection()
+        PreparedStatement preparedStatement = SQLiteConnection.getConnection()
+                .prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            postList.add(createObject(resultSet));
+        }
+        return postList;
+    }
+
+
+    public List<Post> getFilterPostsByText(String searchText) throws SQLException {
+        List<Post> postList = new ArrayList<>();
+        PreparedStatement preparedStatement = SQLiteConnection.getConnection()
                 .prepareStatement(sql +
                         "where \"quote\".name like +'%" + searchText + "%'" +
                         "or source.name like +'%" + searchText + "%'" +
                         "or category.name like  +'%" + searchText + "%'"
-                )) {
+                );
+        {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 postList.add(createObject(resultSet));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return postList;
     }
 
-    public List<Post> getAllPost() {
+
+    public List<Post> getFavoriteAllPost() throws SQLException {
         List<Post> postList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = SQLiteConnection.getConnection()
-                .prepareStatement(sql)) {
+        PreparedStatement preparedStatement = SQLiteConnection.getConnection()
+                .prepareStatement(sql + " where favorite='true'");
+        {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 postList.add(createObject(resultSet));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return postList;
+    }
+
+
+    public void updateQuoteStatusFavorite(boolean checked, int idText) throws SQLException {
+        String status = "false";
+        if (checked) {
+            status = "true";
+        }
+
+        PreparedStatement preparedStatement = SQLiteConnection.getConnection()
+                .prepareStatement("UPDATE quote " +
+                        "SET favorite = '" + status + "'" +
+                        " where id = " + idText + " ;");
+        int i = preparedStatement.executeUpdate();
+
+        if (i == 0) {
+            updateQuoteStatusFavorite(checked, idText);
+        }
+
     }
 
 
     private Post createObject(ResultSet resultSet) throws SQLException {
-        boolean favorite = resultSet.getBoolean("favorite");
-
-//        String favorite1 = resultSet.getString("favorite");
         return new Post(
                 resultSet.getInt("id"),
                 resultSet.getString("quote"),
                 resultSet.getString("author"),
                 resultSet.getString("category"),
-                favorite)
+                resultSet.getString("favorite"))
                 ;
     }
+
 
     public List<Post> getShufflePostList() {
         Collections.shuffle(postList);
         return postList;
     }
 
+
     public List<Post> getPostList() {
         return postList;
     }
 
-    public List<Post> getTypeList(Type type) {
+
+    public List<Post> getPostList(Type type) {
+        List<Post> posts = postMap.get(type);
+        return posts;
+    }
+
+
+    public List<Post> getShufflePostList(Type type) {
         List<Post> posts = postMap.get(type);
         Collections.shuffle(posts);
         return posts;
     }
 
-    public void updateQuoteStatusFavorite(boolean checked, String text) {
-        int bool = 0;
-        if (checked) {
-            bool = 1;
-        }
-        try (PreparedStatement preparedStatement = SQLiteConnection.getConnection()
-                .prepareStatement("UPDATE quote SET favorite =" + bool + " where name = '" + text + "'"
-                )) {
-            preparedStatement.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public Map<Integer, Post> getIdentityMap() {
+        return identityMap;
     }
 
-    public List<Post> getFavoriteAllPost() {
-        List<Post> postList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = SQLiteConnection.getConnection()
-                .prepareStatement(sql + " where favorite = 1 ")) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                postList.add(createObject(resultSet));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return postList;
+
+    public Map<Type, List<Post>> getPostMap() {
+        return postMap;
     }
 
 }

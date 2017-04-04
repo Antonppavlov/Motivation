@@ -1,12 +1,14 @@
 package pavlov.p.anton.motivation.create;
 
 
+import java.sql.SQLException;
+
 import pavlov.p.anton.motivation.dao.FilterDAO;
 
 public class CreatePosts {
     private FilterDAO filterDAO;
 
-    public CreatePosts() {
+    public CreatePosts() throws SQLException {
         filterDAO = new FilterDAO();
     }
 
