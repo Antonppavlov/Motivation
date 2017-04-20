@@ -21,7 +21,7 @@ public class PlaceholderFragment extends Fragment {
 
     private Post citation;
 
-    private PlaceholderFragment() {
+    public PlaceholderFragment() {
     }
 
     public static PlaceholderFragment newInstance(Post citation) {
@@ -36,7 +36,7 @@ public class PlaceholderFragment extends Fragment {
 
         TextView textQuoteView = (TextView) rootView.findViewById(R.id.quote_text);
         TextView textSourceView = (TextView) rootView.findViewById(R.id.source_text);
-        final TextView textIdText = (TextView) rootView.findViewById(R.id.id_text);
+//        final TextView textIdText = (TextView) rootView.findViewById(R.id.id_text);
         final CheckBox checkBox = (CheckBox) rootView.findViewById(R.id.chbFavorite);
 
         boolean statusCheckBox = false;
@@ -46,21 +46,19 @@ public class PlaceholderFragment extends Fragment {
 
         textQuoteView.setText(citation.getQuote());
         textSourceView.setText(citation.getAuthor());
-        textIdText.setText(String.valueOf(citation.getId()));
+//        textIdText.setText(String.valueOf(citation.getId()));
         checkBox.setChecked(statusCheckBox);
         checkBox.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             FilterDAO filterDAO = Initializer.getCreatePosts().getFilterDAO();
-                                            Integer id = Integer.valueOf(textIdText.getText().toString());
-
                                             try {
-                                                filterDAO.updateQuoteStatusFavorite(checkBox.isChecked(), id);
+                                                filterDAO.updateQuoteStatusFavorite(checkBox.isChecked(), citation.getId());
                                             } catch (SQLException e) {
                                                 e.printStackTrace();
                                             }
 
-                                            Log.i("ID", String.valueOf(id) + "     checked:   " + String.valueOf(checkBox.isChecked()));
+                                            Log.i("ID", String.valueOf(citation.getId()) + "     checked:   " + String.valueOf(checkBox.isChecked()));
 
                                         }
                                     }

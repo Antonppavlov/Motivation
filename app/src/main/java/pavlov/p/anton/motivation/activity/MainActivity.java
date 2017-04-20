@@ -15,8 +15,6 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.CheckBox;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.SQLException;
@@ -66,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), postList);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        toolbar.setTitle(R.string.random);
+//        toolbar.setTitle(R.string.all);
     }
 
     private void initToolbar() {
@@ -184,23 +182,19 @@ public class MainActivity extends AppCompatActivity {
         toolbar.collapseActionView();
     }
 
-    public void clickFavorite(View view) throws SQLException {
-        FilterDAO filterDAO = Initializer.getCreatePosts().getFilterDAO();
-        CheckBox checkBox = (CheckBox) view;
-        boolean checked = checkBox.isChecked();
-
-
-        String text;
-        if (checked) {
-            text = "В избранное!";
-        } else {
-            text = "Удалено из избранного!";
-        }
-
-        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-
-
-        TextView idText = (TextView) findViewById(R.id.id_text);
-
-    }
+//    public void clickFavorite(View view)  {
+//        CheckBox checkBox = (CheckBox) view;
+//        boolean checked = checkBox.isChecked();
+//
+//
+//        String text;
+//        if (checked) {
+//            text = "В избранное!";
+//        } else {
+//            text = "Удалено из избранного!";
+//        }
+//
+//        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+//
+//    }
 }
